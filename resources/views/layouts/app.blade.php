@@ -7,7 +7,9 @@
 
         <title>{{ $title ?? config('app.name', 'Laravel Blog') }}</title>
 
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+            @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @endif
     </head>
     <body class="min-h-screen bg-stone-950 text-stone-100 antialiased">
         <div class="pointer-events-none fixed inset-0 overflow-hidden">
