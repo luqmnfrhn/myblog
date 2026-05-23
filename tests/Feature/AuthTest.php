@@ -4,6 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Laravel\Socialite\Contracts\Factory;
+use Laravel\Socialite\Two\GithubProvider;
+use Laravel\Socialite\Two\GoogleProvider;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
@@ -58,5 +61,57 @@ class AuthTest extends TestCase
         $this->actingAs($admin)
             ->get(route('admin.dashboard'))
             ->assertOk();
+    }
+
+    public function test_new_user_can_authenticate_via_google(): void
+    {
+        $socialiteUser = $this->createMock(\Laravel\Socialite\Two\User::class);
+        $socialiteUser->method('getId')->willReturn('google-123');
+        $socialiteUser->method('getEmail')->willReturn('user@example.com');
+        $socialiteUser->method('getName')->willReturn('Test User');
+        $socialiteUser->token = 'fake-token';
+
+        $provider = $this->createMock(GoogleProvider::class);
+        $provider->method('user')->willReturn($socialiteUser);
+
+        $this->mock(Factory::class)
+            ->shouldReceive('driver')
+            ->with('google')
+            ->andReturn($provider);
+
+        $response = $this->get('/auth/google/callback');
+
+        $response->assertRedirect('/');
+        $this->assertAuthenticated();
+        $this->assertDatabaseHas('users', ['email' => 'user@example.com']);
+        $this->assertDatabaseHas('social_accounts', ['provider' => 'google', 'provider_id' => 'google-123']);
+    }
+
+    public function test_existing_social_account_logs_in_linked_user(): void
+    {
+        $user = User::factory()->create(['email' => 'existing@example.com']);
+        $user->socialAccounts()->create([
+            'provider' => 'github',
+            'provider_id' => 'gh-456',
+            'token' => 'old-token',
+        ]);
+
+        $socialiteUser = $this->createMock(\Laravel\Socialite\Two\User::class);
+        $socialiteUser->method('getId')->willReturn('gh-456');
+        $socialiteUser->method('getEmail')->willReturn('existing@example.com');
+        $socialiteUser->method('getName')->willReturn($user->name);
+        $socialiteUser->token = 'new-token';
+
+        $provider = $this->createMock(GithubProvider::class);
+        $provider->method('user')->willReturn($socialiteUser);
+
+        $this->mock(Factory::class)
+            ->shouldReceive('driver')
+            ->with('github')
+            ->andReturn($provider);
+
+        $this->get('/auth/github/callback');
+
+        $this->assertAuthenticatedAs($user);
     }
 }
