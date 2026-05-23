@@ -1,47 +1,73 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@extends('layouts.app')
 
-    <form method="POST" action="{{ route('login') }}">
+@section('content')
+<div class="mx-auto max-w-sm py-16">
+    <h1 class="mb-8 text-2xl font-bold text-white">Sign in</h1>
+
+    <form method="POST" action="{{ route('login') }}" class="space-y-4">
         @csrf
 
-        <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <label for="email" class="block text-sm text-stone-300">Email</label>
+            <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username"
+                class="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-amber-400">
+            @error('email')
+                <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
+            @enderror
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div>
+            <label for="password" class="block text-sm text-stone-300">Password</label>
+            <input type="password" id="password" name="password" required autocomplete="current-password"
+                class="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-amber-400">
+            @error('password')
+                <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
+            @enderror
         </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+        <div class="flex items-center justify-between">
+            <label class="flex items-center gap-2 text-sm text-stone-300">
+                <input type="checkbox" name="remember" class="rounded border-white/20">
+                Remember me
             </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
+                <a href="{{ route('password.request') }}" class="text-sm text-amber-400 hover:text-amber-300">
+                    Forgot password?
                 </a>
             @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
         </div>
+
+        <button type="submit"
+            class="w-full rounded-lg bg-amber-400 px-4 py-2 font-semibold text-stone-950 hover:bg-amber-300">
+            Sign in
+        </button>
     </form>
-</x-guest-layout>
+
+    <div class="mt-6">
+        <div class="relative">
+            <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-white/10"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+                <span class="bg-stone-950 px-2 text-stone-400">Or continue with</span>
+            </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-2 gap-3">
+            <a href="{{ route('auth.social.redirect', 'google') }}"
+                class="flex items-center justify-center rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm text-white hover:bg-white/10">
+                Google
+            </a>
+            <a href="{{ route('auth.social.redirect', 'github') }}"
+                class="flex items-center justify-center rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm text-white hover:bg-white/10">
+                GitHub
+            </a>
+        </div>
+    </div>
+
+    <p class="mt-6 text-center text-sm text-stone-400">
+        Don't have an account?
+        <a href="{{ route('register') }}" class="text-amber-400 hover:text-amber-300">Register</a>
+    </p>
+</div>
+@endsection
