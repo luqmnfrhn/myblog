@@ -15,4 +15,30 @@ class AuthTest extends TestCase
         $user = User::factory()->admin()->create();
         $this->assertTrue($user->is_admin);
     }
+
+    public function test_admin_can_login_via_admin_login_form(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $response = $this->post(route('admin.login'), [
+            'email' => $admin->email,
+            'password' => 'password',
+        ]);
+
+        $response->assertRedirect(route('admin.dashboard'));
+        $this->assertAuthenticatedAs($admin);
+    }
+
+    public function test_non_admin_cannot_login_via_admin_login_form(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->post(route('admin.login'), [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $response->assertSessionHasErrors('email');
+        $this->assertGuest();
+    }
 }
