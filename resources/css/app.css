@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+[x-cloak] {
+    display: none !important;
+}
+
+@layer components {
+    .story-body {
+        @apply space-y-6 font-serif text-lg leading-8 text-stone-700;
+    }
+
+    .story-body p {
+        @apply m-0;
+    }
+}

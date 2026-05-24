@@ -47,4 +47,9 @@ return [
         'redirect' => env('GITHUB_REDIRECT_URL', '/auth/github/callback'),
     ],
 
+    'stripe' => [
+        'key' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+    ],
+
 ];
