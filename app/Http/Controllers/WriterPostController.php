@@ -12,6 +12,13 @@ use Illuminate\View\View;
 
 class WriterPostController extends Controller
 {
+    public function index(): View
+    {
+        $posts = auth()->user()->posts()->latest()->get();
+
+        return view('writer.posts.index', compact('posts'));
+    }
+
     public function create(): View
     {
         return view('writer.posts.create');

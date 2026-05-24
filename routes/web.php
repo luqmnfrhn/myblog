@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::prefix('writer')->name('writer.')->group(function (): void {
+        Route::get('posts', [WriterPostController::class, 'index'])->name('posts.index');
         Route::get('posts/create', [WriterPostController::class, 'create'])->name('posts.create');
         Route::post('posts', [WriterPostController::class, 'store'])->name('posts.store');
         Route::get('posts/{post}/edit', [WriterPostController::class, 'edit'])->name('posts.edit');
