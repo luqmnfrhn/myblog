@@ -36,7 +36,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return $user->is($post->author);
+        return $user->is_admin || $user->is($post->author);
     }
 
     /**
@@ -44,7 +44,15 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $user->is($post->author);
+        return $user->is_admin || $user->is($post->author);
+    }
+
+    /**
+     * Determine whether the user can toggle post visibility.
+     */
+    public function hide(User $user, Post $post): bool
+    {
+        return $user->is_admin;
     }
 
     /**

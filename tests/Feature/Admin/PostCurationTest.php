@@ -31,6 +31,28 @@ class PostCurationTest extends TestCase
             ->assertForbidden();
     }
 
+    public function test_admin_can_delete_any_post(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $post = Post::factory()->published()->create();
+
+        $this->actingAs($admin)
+            ->delete(route('writer.posts.destroy', $post))
+            ->assertRedirect();
+
+        $this->assertModelMissing($post);
+    }
+
+    public function test_regular_user_cannot_delete_others_post(): void
+    {
+        $user = User::factory()->create();
+        $post = Post::factory()->for(User::factory()->create())->published()->create();
+
+        $this->actingAs($user)
+            ->delete(route('writer.posts.destroy', $post))
+            ->assertForbidden();
+    }
+
     public function test_featured_posts_appear_first_on_homepage(): void
     {
         $regular = Post::factory()->published()->create(['title' => 'Regular story']);
