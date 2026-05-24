@@ -16,7 +16,7 @@
                 <a href="{{ route('profile.edit') }}" class="text-stone-500 hover:text-stone-900">Settings</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="text-stone-400 hover:text-stone-700">Sign out</button>
+                    <button type="submit" class="text-stone-600 hover:text-stone-900">Sign out</button>
                 </form>
             @else
                 <a href="{{ route('login') }}" class="text-stone-600 hover:text-stone-900">Sign in</a>
@@ -33,7 +33,7 @@
                 <a href="{{ route('profile.edit') }}" class="text-stone-500">Settings</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="text-stone-400">Sign out</button>
+                    <button type="submit" class="text-stone-600">Sign out</button>
                 </form>
             @else
                 <a href="{{ route('login') }}" class="text-stone-600">Sign in</a>

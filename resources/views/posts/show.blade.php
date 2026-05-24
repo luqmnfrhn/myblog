@@ -1,6 +1,6 @@
 <x-app-layout>
     <article class="mx-auto max-w-2xl">
-        <a href="{{ route('posts.index') }}" class="text-sm text-stone-400 hover:text-accent">Back to stories</a>
+        <a href="{{ route('posts.index') }}" class="text-sm text-stone-600 hover:text-accent">Back to stories</a>
 
         <header class="mb-8 mt-8">
             <h1 class="font-serif text-4xl font-semibold leading-tight text-stone-950 sm:text-5xl">{{ $post->title }}</h1>
@@ -50,7 +50,7 @@
                     </summary>
                     <form method="POST" action="{{ route('posts.circles.store', $post) }}" class="mt-3 flex gap-3">
                         @csrf
-                        <input name="name" type="text" placeholder="Name your circle..." class="flex-1 rounded-md border border-stone-200 px-4 py-2 text-sm focus:border-accent focus:outline-none">
+                        <input name="name" type="text" placeholder="Name your circle..." class="accessible-field flex-1 rounded-md px-4 py-2 text-sm focus:outline-none">
                         <button type="submit" class="rounded-md bg-stone-900 px-4 py-2 text-sm text-white hover:bg-stone-700">Create</button>
                     </form>
                 </details>
@@ -65,7 +65,7 @@
                         <div class="flex items-center justify-between gap-4 rounded-md border border-stone-200 bg-white p-4">
                             <div>
                                 <p class="font-medium text-stone-800">{{ $circle->name }}</p>
-                                <p class="text-sm text-stone-400">{{ $circle->created_at->diffForHumans() }}</p>
+                                <p class="text-sm text-stone-600">{{ $circle->created_at->diffForHumans() }}</p>
                             </div>
                             @auth
                                 @if ($circle->members->contains(auth()->user()))
@@ -89,7 +89,7 @@
             @auth
                 <form method="POST" action="{{ route('posts.comments.store', $post) }}" class="mb-8">
                     @csrf
-                    <textarea name="body" rows="3" placeholder="What do you think?" class="w-full resize-none rounded-md border border-stone-200 px-4 py-3 text-sm focus:border-accent focus:outline-none">{{ old('body') }}</textarea>
+                    <textarea name="body" rows="3" placeholder="What do you think?" class="accessible-field w-full resize-none rounded-md px-4 py-3 text-sm focus:outline-none">{{ old('body') }}</textarea>
                     <button type="submit" class="mt-2 rounded-md bg-stone-900 px-5 py-2 text-sm text-white hover:bg-stone-700">Respond</button>
                 </form>
             @endauth
@@ -99,7 +99,7 @@
                     <div class="border-b border-stone-200 pb-6">
                         <div class="mb-2 flex items-center gap-2">
                             <span class="text-sm font-medium text-stone-700">{{ $comment->author->name }}</span>
-                            <span class="text-xs text-stone-400">{{ $comment->created_at->diffForHumans() }}</span>
+                            <span class="text-xs text-stone-600">{{ $comment->created_at->diffForHumans() }}</span>
                         </div>
                         <p class="text-sm leading-7 text-stone-600">{{ $comment->body }}</p>
 
@@ -107,7 +107,7 @@
                             <div class="ml-6 mt-4 border-t border-stone-100 pt-4">
                                 <div class="mb-1 flex items-center gap-2">
                                     <span class="text-sm font-medium text-stone-700">{{ $reply->author->name }}</span>
-                                    <span class="text-xs text-stone-400">{{ $reply->created_at->diffForHumans() }}</span>
+                                    <span class="text-xs text-stone-600">{{ $reply->created_at->diffForHumans() }}</span>
                                 </div>
                                 <p class="text-sm leading-7 text-stone-600">{{ $reply->body }}</p>
                             </div>
@@ -117,12 +117,12 @@
                             <form method="POST" action="{{ route('posts.comments.store', $post) }}" class="mt-4">
                                 @csrf
                                 <input type="hidden" name="parent_id" value="{{ $comment->id }}">
-                                <input name="body" type="text" placeholder="Reply..." class="w-full border-0 border-b border-stone-200 bg-transparent pb-2 text-sm focus:border-accent focus:ring-0">
+                                <input name="body" type="text" placeholder="Reply..." class="w-full border-0 border-b border-stone-300 bg-transparent pb-2 text-sm text-stone-950 placeholder:text-stone-500 caret-stone-950 focus:border-accent focus:ring-0">
                             </form>
                         @endauth
                     </div>
                 @empty
-                    <p class="text-sm text-stone-400">No responses yet.</p>
+                    <p class="text-sm text-stone-600">No responses yet.</p>
                 @endforelse
             </div>
         </section>

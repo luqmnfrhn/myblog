@@ -14,7 +14,7 @@
                 @endforeach
             </div>
 
-            <input id="amount" name="amount_cents" type="number" min="100" placeholder="Custom amount (cents)" class="w-full rounded-md border border-stone-200 px-4 py-2 text-center text-sm focus:border-accent focus:outline-none">
+            <input id="amount" name="amount_cents" type="number" min="100" placeholder="Custom amount (cents)" class="accessible-field w-full rounded-md px-4 py-2 text-center text-sm focus:outline-none">
             <x-input-error :messages="$errors->get('amount_cents')" class="mt-2" />
 
             <button type="submit" class="w-full rounded-md bg-stone-900 py-3 text-sm font-medium text-white hover:bg-stone-700">Send tip via Stripe</button>

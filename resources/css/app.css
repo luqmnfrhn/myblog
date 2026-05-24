@@ -7,6 +7,10 @@
 }
 
 @layer components {
+    .accessible-field {
+        @apply border-stone-300 bg-white text-stone-950 placeholder:text-stone-500 caret-stone-950 shadow-sm focus:border-accent focus:ring-1 focus:ring-accent;
+    }
+
     .story-body {
         @apply space-y-6 font-serif text-lg leading-8 text-stone-700;
     }

@@ -37,10 +37,10 @@
                         <a href="{{ route('posts.show', $post) }}" class="hover:text-accent">{{ $post->title }}</a>
                     </h2>
                     <p class="mb-2 leading-7 text-stone-600">{{ $post->excerpt }}</p>
-                    <span class="text-xs text-stone-400">{{ $post->published_at?->format('d M Y') }}</span>
+                    <span class="text-xs text-stone-600">{{ $post->published_at?->format('d M Y') }}</span>
                 </article>
             @empty
-                <p class="text-stone-400">No stories yet.</p>
+                <p class="text-stone-600">No stories yet.</p>
             @endforelse
         </div>
     </div>

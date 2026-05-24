@@ -29,7 +29,7 @@
                             <form method="POST" action="{{ route('admin.posts.feature', $post) }}">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit" class="text-xs text-stone-400 hover:text-accent">{{ $post->is_featured ? 'Unfeature' : 'Feature' }}</button>
+                                <button type="submit" class="text-xs text-stone-600 hover:text-accent">{{ $post->is_featured ? 'Unfeature' : 'Feature' }}</button>
                             </form>
                         @endif
                     @endauth

@@ -6,13 +6,13 @@
             @csrf
             @method('PATCH')
 
-            <input name="title" type="text" value="{{ old('title', $post->title) }}" class="w-full border-0 border-b border-stone-200 bg-transparent pb-2 font-serif text-3xl focus:border-accent focus:ring-0">
+            <input name="title" type="text" value="{{ old('title', $post->title) }}" class="w-full border-0 border-b border-stone-300 bg-transparent pb-2 font-serif text-3xl text-stone-950 caret-stone-950 focus:border-accent focus:ring-0">
             <x-input-error :messages="$errors->get('title')" class="mt-2" />
 
-            <input name="excerpt" type="text" value="{{ old('excerpt', $post->excerpt) }}" class="w-full border-0 border-b border-stone-200 bg-transparent pb-2 text-stone-600 focus:border-accent focus:ring-0">
+            <input name="excerpt" type="text" value="{{ old('excerpt', $post->excerpt) }}" class="w-full border-0 border-b border-stone-300 bg-transparent pb-2 text-stone-900 caret-stone-950 focus:border-accent focus:ring-0">
             <x-input-error :messages="$errors->get('excerpt')" class="mt-2" />
 
-            <textarea name="body" rows="18" class="w-full resize-none border-0 bg-transparent font-serif text-lg leading-8 focus:ring-0">{{ old('body', $post->body) }}</textarea>
+            <textarea name="body" rows="18" class="w-full resize-none border-0 bg-transparent font-serif text-lg leading-8 text-stone-950 caret-stone-950 focus:ring-0">{{ old('body', $post->body) }}</textarea>
             <x-input-error :messages="$errors->get('body')" class="mt-2" />
         </form>
 
