@@ -21,6 +21,7 @@ class Post extends Model
         'excerpt',
         'body',
         'published_at',
+        'hidden_at',
         'is_featured',
     ];
 
@@ -28,6 +29,7 @@ class Post extends Model
     {
         return [
             'published_at' => 'datetime',
+            'hidden_at' => 'datetime',
             'is_featured' => 'boolean',
         ];
     }
@@ -39,7 +41,12 @@ class Post extends Model
 
     public function scopePublished(Builder $query): Builder
     {
-        return $query->whereNotNull('published_at')->where('published_at', '<=', now());
+        return $query->whereNotNull('published_at')->where('published_at', '<=', now())->whereNull('hidden_at');
+    }
+
+    public function scopeHidden(Builder $query): Builder
+    {
+        return $query->whereNotNull('hidden_at');
     }
 
     public function scopeFeatured(Builder $query): Builder

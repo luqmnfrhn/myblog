@@ -70,4 +70,13 @@ class WriterPostTest extends TestCase
 
         $this->assertModelMissing($post);
     }
+
+    public function test_hidden_post_does_not_appear_in_published_scope(): void
+    {
+        $post = Post::factory()->published()->create(['hidden_at' => now()]);
+
+        $results = Post::query()->published()->get();
+
+        $this->assertNotContains($post->id, $results->pluck('id')->all());
+    }
 }
