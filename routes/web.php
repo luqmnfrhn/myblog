@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\PostCurationController;
+use App\Http\Controllers\Admin\PostVisibilityController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\CircleMessageController;
 use App\Http\Controllers\CommentController;
@@ -71,6 +72,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('posts', [AdminPostController::class, 'index'])->name('posts.index');
         Route::delete('posts/{post}', [AdminPostController::class, 'destroy'])->name('posts.destroy');
         Route::patch('posts/{post}/feature', [PostCurationController::class, 'feature'])->name('posts.feature');
+        Route::patch('posts/{post}/visibility', [PostVisibilityController::class, 'toggle'])->name('posts.visibility');
     });
 });
 

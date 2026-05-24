@@ -42,4 +42,38 @@ class PostModerationTest extends TestCase
 
         $this->assertModelMissing($post);
     }
+
+    public function test_admin_can_hide_a_post(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $post = Post::factory()->published()->create();
+
+        $this->actingAs($admin)
+            ->patch(route('admin.posts.visibility', $post))
+            ->assertRedirect();
+
+        $this->assertNotNull($post->fresh()->hidden_at);
+    }
+
+    public function test_admin_can_unhide_a_post(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $post = Post::factory()->hidden()->create();
+
+        $this->actingAs($admin)
+            ->patch(route('admin.posts.visibility', $post))
+            ->assertRedirect();
+
+        $this->assertNull($post->fresh()->hidden_at);
+    }
+
+    public function test_regular_user_cannot_hide_post(): void
+    {
+        $user = User::factory()->create();
+        $post = Post::factory()->published()->create();
+
+        $this->actingAs($user)
+            ->patch(route('admin.posts.visibility', $post))
+            ->assertForbidden();
+    }
 }
