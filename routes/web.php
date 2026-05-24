@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\PostCurationController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\CircleMessageController;
@@ -67,6 +68,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware('admin')->group(function () {
         Route::get('dashboard', fn () => view('admin.dashboard'))->name('dashboard');
+        Route::get('posts', [AdminPostController::class, 'index'])->name('posts.index');
+        Route::delete('posts/{post}', [AdminPostController::class, 'destroy'])->name('posts.destroy');
         Route::patch('posts/{post}/feature', [PostCurationController::class, 'feature'])->name('posts.feature');
     });
 });
