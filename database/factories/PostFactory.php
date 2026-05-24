@@ -38,4 +38,12 @@ class PostFactory extends Factory
             'published_at' => now()->subDay(),
         ]);
     }
+
+    public function hidden(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'published_at' => now()->subDay(),
+            'hidden_at' => now(),
+        ]);
+    }
 }
