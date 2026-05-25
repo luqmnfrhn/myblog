@@ -47,6 +47,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/circles/{circle}', [ReadingCircleController::class, 'show'])->name('circles.show');
     Route::post('/circles/{circle}/join', [ReadingCircleController::class, 'join'])->name('circles.join');
     Route::post('/circles/{circle}/messages', [CircleMessageController::class, 'store'])->name('circles.messages.store');
+
+    Route::get('/library', fn () => view('library.index'))->name('library.index');
+    Route::get('/stats', fn () => view('stats.index'))->name('stats.index');
+    Route::get('/search', fn () => view('search.index'))->name('search.index');
 });
 
 // Social auth
