@@ -14,7 +14,7 @@
 </head>
 
 <body class="min-h-screen bg-stone-50 font-sans text-stone-900 antialiased">
-    @php $authUser = $authUser; @endphp
+    @php $authUser = auth()->user(); @endphp
     <div class="flex min-h-screen">
         {{-- Sidebar: desktop only --}}
         <aside class="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-stone-200 bg-white sm:flex">
