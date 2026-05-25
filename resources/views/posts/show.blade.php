@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-authenticated-layout>
     <article class="mx-auto max-w-2xl">
         <a href="{{ route('posts.index') }}" class="text-sm text-stone-600 hover:text-accent">Back to stories</a>
 
@@ -127,4 +127,4 @@
             </div>
         </section>
     </article>
-</x-app-layout>
+</x-authenticated-layout>

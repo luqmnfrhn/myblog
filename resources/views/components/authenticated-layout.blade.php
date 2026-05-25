@@ -37,12 +37,14 @@
                     Library
                 </x-sidebar-nav-link>
 
+                @auth
                 <x-sidebar-nav-link :href="route('writers.show', $authUser)" :active="request()->routeIs('writers.show') && request()->route('writer')?->is($authUser)">
                     <x-slot name="icon">
                         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path stroke-linecap="round" d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
                     </x-slot>
                     Profile
                 </x-sidebar-nav-link>
+                @endauth
 
                 <x-sidebar-nav-link :href="route('writer.posts.index')" :active="request()->routeIs('writer.posts.*')">
                     <x-slot name="icon">
@@ -60,6 +62,7 @@
             </nav>
 
             <div class="border-t border-stone-200 p-4">
+                @auth
                 <div class="mb-3 flex items-center gap-3">
                     <div aria-hidden="true" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-stone-200 text-sm font-medium text-stone-700">
                         {{ mb_substr($authUser->name, 0, 1) }}
@@ -73,6 +76,12 @@
                         <button type="submit" class="text-stone-500 hover:text-stone-900">Sign out</button>
                     </form>
                 </div>
+                @else
+                <div class="flex flex-col gap-1 text-sm">
+                    <a href="{{ route('login') }}" class="font-medium text-stone-900 hover:text-accent">Sign in</a>
+                    <a href="{{ route('register') }}" class="text-stone-500 hover:text-stone-900">Get started</a>
+                </div>
+                @endauth
             </div>
         </aside>
 
@@ -99,8 +108,10 @@
                     </form>
                 </div>
 
-                {{-- Desktop: write button --}}
+                {{-- Desktop: write button (auth only) --}}
+                @auth
                 <a href="{{ route('writer.posts.create') }}" class="hidden text-sm font-medium text-accent hover:text-accent-light sm:block">Write</a>
+                @endauth
             </header>
 
             <main class="flex-1 px-5 py-10 pb-20 sm:pb-10">
@@ -117,9 +128,15 @@
         <x-bottom-tab :href="route('library.index')" :active="request()->routeIs('library.*')" label="Library">
             <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path stroke-linecap="round" stroke-linejoin="round" d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
         </x-bottom-tab>
+        @auth
         <x-bottom-tab :href="route('writers.show', $authUser)" :active="request()->routeIs('writers.show') && request()->route('writer')?->is($authUser)" label="Profile">
             <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path stroke-linecap="round" d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         </x-bottom-tab>
+        @else
+        <x-bottom-tab :href="route('login')" :active="false" label="Sign in">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path stroke-linecap="round" d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </x-bottom-tab>
+        @endauth
         <x-bottom-tab :href="route('writer.posts.index')" :active="request()->routeIs('writer.posts.*')" label="Stories">
             <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20h9"/><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
         </x-bottom-tab>

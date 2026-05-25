@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-authenticated-layout>
     <div class="space-y-10">
         @forelse ($posts as $post)
             <article class="border-b border-stone-200 pb-10">
@@ -39,4 +39,4 @@
             <p class="text-stone-500">No stories yet.</p>
         @endforelse
     </div>
-</x-app-layout>
+</x-authenticated-layout>

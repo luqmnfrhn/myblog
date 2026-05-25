@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-authenticated-layout>
     <div class="mx-auto max-w-2xl">
         <div class="mb-10 border-b border-stone-200 pb-10">
             <div class="flex flex-wrap items-start justify-between gap-4">
@@ -44,4 +44,4 @@
             @endforelse
         </div>
     </div>
-</x-app-layout>
+</x-authenticated-layout>
