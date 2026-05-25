@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-authenticated-layout>
     <div class="mx-auto max-w-3xl">
         <div class="mb-8 flex items-center justify-between">
             <h1 class="font-serif text-3xl font-semibold">My stories</h1>
@@ -37,4 +37,4 @@
             </div>
         @endif
     </div>
-</x-app-layout>
+</x-authenticated-layout>

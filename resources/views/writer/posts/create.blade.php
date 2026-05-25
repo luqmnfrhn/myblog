@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-authenticated-layout>
     <div class="mx-auto max-w-2xl">
         <h1 class="mb-8 font-serif text-3xl font-semibold">New story</h1>
 
@@ -26,4 +26,4 @@
             </div>
         </form>
     </div>
-</x-app-layout>
+</x-authenticated-layout>
