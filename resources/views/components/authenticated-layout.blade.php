@@ -61,28 +61,14 @@
                 </x-sidebar-nav-link>
             </nav>
 
+            @guest
             <div class="border-t border-stone-200 p-4">
-                @auth
-                <div class="mb-3 flex items-center gap-3">
-                    <div aria-hidden="true" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-stone-200 text-sm font-medium text-stone-700">
-                        {{ mb_substr($authUser->name, 0, 1) }}
-                    </div>
-                    <span class="truncate text-sm font-medium text-stone-800">{{ $authUser->name }}</span>
-                </div>
-                <div class="flex flex-col gap-1 text-sm">
-                    <a href="{{ route('profile.edit') }}" class="text-stone-500 hover:text-stone-900">Settings</a>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="text-stone-500 hover:text-stone-900">Sign out</button>
-                    </form>
-                </div>
-                @else
                 <div class="flex flex-col gap-1 text-sm">
                     <a href="{{ route('login') }}" class="font-medium text-stone-900 hover:text-accent">Sign in</a>
                     <a href="{{ route('register') }}" class="text-stone-500 hover:text-stone-900">Get started</a>
                 </div>
-                @endauth
             </div>
+            @endguest
         </aside>
 
         {{-- Main content area (offset by sidebar on desktop) --}}
@@ -108,10 +94,34 @@
                     </form>
                 </div>
 
-                {{-- Desktop: write button (auth only) --}}
-                @auth
-                <a href="{{ route('writer.posts.create') }}" class="hidden text-sm font-medium text-accent hover:text-accent-light sm:block">Write</a>
-                @endauth
+                {{-- Right side: write + avatar dropdown --}}
+                <div class="flex items-center gap-3">
+                    @auth
+                    <a href="{{ route('writer.posts.create') }}" class="hidden text-sm font-medium text-accent hover:text-accent-light sm:block">Write</a>
+
+                    <x-dropdown align="right" width="48">
+                        <x-slot name="trigger">
+                            <button type="button" class="flex h-8 w-8 items-center justify-center rounded-full bg-stone-200 text-sm font-medium text-stone-700 hover:bg-stone-300 focus:outline-none focus:ring-2 focus:ring-stone-400 focus:ring-offset-2" aria-label="Account menu">
+                                {{ mb_substr($authUser->name, 0, 1) }}
+                            </button>
+                        </x-slot>
+                        <x-slot name="content">
+                            <div class="px-4 py-2 border-b border-stone-100">
+                                <p class="truncate text-sm font-medium text-stone-900">{{ $authUser->name }}</p>
+                                <p class="truncate text-xs text-stone-500">{{ $authUser->email }}</p>
+                            </div>
+                            <x-dropdown-link :href="route('profile.edit')">Settings</x-dropdown-link>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <x-dropdown-link :href="route('logout')"
+                                    onclick="event.preventDefault(); this.closest('form').submit();">
+                                    Sign out
+                                </x-dropdown-link>
+                            </form>
+                        </x-slot>
+                    </x-dropdown>
+                    @endauth
+                </div>
             </header>
 
             <main class="flex-1 px-5 py-10 pb-20 sm:pb-10">
