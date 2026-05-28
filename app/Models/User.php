@@ -66,4 +66,19 @@ class User extends Authenticatable
     {
         return $this->following()->whereKey($user->getKey())->exists();
     }
+
+    public function reactions(): HasMany
+    {
+        return $this->hasMany(Reaction::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function readingCircles(): HasMany
+    {
+        return $this->hasMany(ReadingCircle::class, 'creator_id');
+    }
 }
