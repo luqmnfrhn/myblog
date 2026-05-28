@@ -6,15 +6,16 @@ use App\Http\Requests\StoreWriterPostRequest;
 use App\Http\Requests\UpdateWriterPostRequest;
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class WriterPostController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $posts = auth()->user()->posts()->latest()->get();
+        $posts = $request->user()->posts()->latest()->get();
 
         return view('writer.posts.index', compact('posts'));
     }
@@ -33,7 +34,7 @@ class WriterPostController extends Controller
             'slug' => Str::slug($validated['title']).'-'.Str::lower(Str::random(6)),
         ]);
 
-        return redirect()->route('posts.show', $post);
+        return redirect()->route('writer.posts.edit', $post);
     }
 
     public function edit(Post $post): View

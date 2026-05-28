@@ -3,11 +3,16 @@
 namespace App\Models;
 
 use App\Enums\ReactionType;
+use Database\Factories\ReactionFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Reaction extends Model
 {
+    /** @use HasFactory<ReactionFactory> */
+    use HasFactory;
+
     public const UPDATED_AT = null;
 
     protected $fillable = [
