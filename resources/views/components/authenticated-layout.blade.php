@@ -61,14 +61,6 @@
                 </x-sidebar-nav-link>
             </nav>
 
-            @guest
-            <div class="border-t border-stone-200 p-4">
-                <div class="flex flex-col gap-1 text-sm">
-                    <a href="{{ route('login') }}" class="font-medium text-stone-900 hover:text-accent">Sign in</a>
-                    <a href="{{ route('register') }}" class="text-stone-500 hover:text-stone-900">Get started</a>
-                </div>
-            </div>
-            @endguest
         </aside>
 
         {{-- Main content area (offset by sidebar on desktop) --}}
@@ -94,7 +86,7 @@
                     </form>
                 </div>
 
-                {{-- Right side: write + avatar dropdown --}}
+                {{-- Right side: write + avatar dropdown (auth) OR sign-in/register (guest) --}}
                 <div class="flex items-center gap-3">
                     @auth
                     <a href="{{ route('writer.posts.create') }}" class="hidden text-sm font-medium text-accent hover:text-accent-light sm:block">Write</a>
@@ -106,7 +98,7 @@
                             </button>
                         </x-slot>
                         <x-slot name="content">
-                            <div class="px-4 py-2 border-b border-stone-100">
+                            <div class="border-b border-stone-100 px-4 py-2">
                                 <p class="truncate text-sm font-medium text-stone-900">{{ $authUser->name }}</p>
                                 <p class="truncate text-xs text-stone-500">{{ $authUser->email }}</p>
                             </div>
@@ -120,6 +112,9 @@
                             </form>
                         </x-slot>
                     </x-dropdown>
+                    @else
+                    <a href="{{ route('login') }}" class="hidden text-sm text-stone-600 hover:text-stone-900 sm:block">Sign in</a>
+                    <a href="{{ route('register') }}" class="hidden rounded-md bg-stone-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-stone-700 sm:block">Get started</a>
                     @endauth
                 </div>
             </header>
