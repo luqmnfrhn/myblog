@@ -103,13 +103,11 @@
                                 <p class="truncate text-xs text-stone-500">{{ $authUser->email }}</p>
                             </div>
                             <x-dropdown-link :href="route('profile.edit')">Settings</x-dropdown-link>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault(); this.closest('form').submit();">
-                                    Sign out
-                                </x-dropdown-link>
-                            </form>
+                            <button type="button"
+                                @click="$dispatch('open-modal', 'logout-confirm'); open = false"
+                                class="block w-full px-4 py-2 text-start text-sm leading-5 text-stone-700 hover:bg-stone-100 focus:bg-stone-100 focus:outline-none transition duration-150 ease-in-out">
+                                Sign out
+                            </button>
                         </x-slot>
                     </x-dropdown>
                     @else
@@ -149,5 +147,30 @@
             <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
         </x-bottom-tab>
     </nav>
+
+    {{-- Logout form (triggered by modal confirm) --}}
+    <form id="logout-form" method="POST" action="{{ route('logout') }}">@csrf</form>
+
+    {{-- Logout confirmation modal --}}
+    <x-modal name="logout-confirm" maxWidth="sm">
+        <div class="p-6">
+            <h2 class="text-lg font-semibold text-stone-900">Sign out?</h2>
+            <p class="mt-1 text-sm text-stone-500">You'll need to sign back in to access your account.</p>
+            <div class="mt-6 flex justify-end gap-3">
+                <button
+                    type="button"
+                    @click="$dispatch('close-modal', 'logout-confirm')"
+                    class="rounded-md border border-stone-200 px-4 py-2 text-sm text-stone-700 hover:bg-stone-50 focus:outline-none">
+                    Cancel
+                </button>
+                <button
+                    type="button"
+                    onclick="document.getElementById('logout-form').submit()"
+                    class="rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-700 focus:outline-none">
+                    Sign out
+                </button>
+            </div>
+        </div>
+    </x-modal>
 </body>
 </html>
