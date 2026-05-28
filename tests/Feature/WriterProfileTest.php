@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Enums\ReactionType;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Reaction;
-use App\Enums\ReactionType;
 use App\Models\ReadingCircle;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -89,5 +89,62 @@ class WriterProfileTest extends TestCase
         $response->assertOk();
         $response->assertSee('My bio text.');
         $response->assertSee($writer->created_at->format('F Y'));
+    }
+
+    public function test_profile_shows_gravatar_avatar(): void
+    {
+        $writer = User::factory()->create();
+        $hash = md5(strtolower(trim($writer->email)));
+
+        $response = $this->get(route('writers.show', $writer));
+
+        $response->assertOk();
+        $response->assertSee($hash);
+    }
+
+    public function test_profile_shows_following_list_in_sidebar(): void
+    {
+        $writer = User::factory()->create();
+        $followed = User::factory()->create(['name' => 'Jane Followed']);
+        $writer->following()->attach($followed);
+
+        $response = $this->get(route('writers.show', $writer));
+
+        $response->assertOk();
+        $response->assertSee('Jane Followed');
+    }
+
+    public function test_profile_shows_edit_link_to_own_profile(): void
+    {
+        $writer = User::factory()->create();
+
+        $response = $this->actingAs($writer)->get(route('writers.show', $writer));
+
+        $response->assertOk();
+        $response->assertSee('Edit profile');
+    }
+
+    public function test_profile_hides_edit_link_from_other_users(): void
+    {
+        $writer = User::factory()->create();
+        $other = User::factory()->create();
+
+        $response = $this->actingAs($other)->get(route('writers.show', $writer));
+
+        $response->assertOk();
+        $response->assertDontSee('Edit profile');
+    }
+
+    public function test_tab_bar_renders_all_four_tabs(): void
+    {
+        $writer = User::factory()->create();
+
+        $response = $this->get(route('writers.show', $writer));
+
+        $response->assertOk();
+        $response->assertSee('Home');
+        $response->assertSee('Activity');
+        $response->assertSee('Lists');
+        $response->assertSee('About');
     }
 }
