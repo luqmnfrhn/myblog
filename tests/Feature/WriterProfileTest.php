@@ -23,4 +23,14 @@ class WriterProfileTest extends TestCase
         $response->assertSee($published->title);
         $response->assertDontSee($draft->title);
     }
+
+    public function test_writer_profile_shows_bio(): void
+    {
+        $writer = User::factory()->create(['bio' => 'Sharing what inspires me.']);
+
+        $response = $this->get(route('writers.show', $writer));
+
+        $response->assertOk();
+        $response->assertSee('Sharing what inspires me.');
+    }
 }
